@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimation de la Population et Répartition du Travail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            direction: rtl;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            max-width: 300px;
+        }
+        label {
+            font-size: 18px;
+            display: block;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Estimation de la Population et Répartition du Travail<br/>
+	 recensement général de la population et de l’habitat
+au maroc
+	</h1>
+    
+    <label for="currentPopulation">Population actuelle :</label>
+    <input type="number" id="currentPopulation" placeholder="Exemple : 10000" required>
+
+    <label for="growthRate">Taux de croissance annuel (%):</label>
+    <input type="number" id="growthRate" placeholder="Exemple : 3" required>
+
+    <label for="years">Nombre d'années pour l'estimation :</label>
+    <input type="number" id="years" placeholder="Exemple : 5" required>
+
+    <label for="workPerDay">Nombre de personnes à traiter par jour :</label>
+    <input type="number" id="workPerDay" placeholder="Exemple : 100" required>
+
+    <button type="button" onclick="calculatePopulation()">Estimer la population</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculatePopulation() {
+            // Récupérer les valeurs saisies
+            const currentPopulation = parseInt(document.getElementById('currentPopulation').value);
+            const growthRate = parseFloat(document.getElementById('growthRate').value) / 100; // Conversion en pourcentage
+            const years = parseInt(document.getElementById('years').value);
+            const workPerDay = parseInt(document.getElementById('workPerDay').value);
+            
+            if (isNaN(currentPopulation) || isNaN(growthRate) || isNaN(years) || isNaN(workPerDay)) {
+                alert("Veuillez entrer des valeurs valides.");
+                return;
+            }
+
+            // Calcul de la population estimée à l'aide de la formule de croissance démographique (CAGR)
+            const predictedPopulation = currentPopulation * Math.pow(1 + growthRate, years);
+
+            // Calcul du nombre de jours nécessaires pour collecter les données
+            const totalDaysRequired = Math.ceil(predictedPopulation / workPerDay);
+
+            // Affichage des résultats
+            document.getElementById('result').innerHTML = `
+                <p>La population estimée dans ${years} années est de : <strong>${Math.round(predictedPopulation)}</strong></p>
+                <p>Sur la base de cette estimation, vous aurez besoin de <strong>${totalDaysRequired}</strong> jours pour collecter les données.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
